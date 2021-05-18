@@ -159,6 +159,22 @@ export default class APIService {
 
     }
 
+    getUUIDDetails(uuid) {
+        this.baseAPIInstance.baseURL = `${this.URL}/get_subscription/${uuid}`;
+
+        let instance = axios.create(this.baseAPIInstance);
+
+        return this.getAPI(instance);
+    }
+
+    removeSubscription(uuid) {
+        this.baseAPIInstance.baseURL = `${this.URL}/remove_subscription/${uuid}`;
+
+        let instance = axios.create(this.baseAPIInstance);
+
+        return this.getAPI(instance);
+    }
+
     postSubscription(formData) {
         this.baseAPIInstance.baseURL = `${this.URL}/add_subscription`;
 
@@ -169,6 +185,14 @@ export default class APIService {
 
     postOTP(formData, uuid) {
         this.baseAPIInstance.baseURL = `${this.URL}/input_otp/${uuid}`;
+
+        let instance = axios.create(this.baseAPIInstance);
+
+        return this.postAPI(instance, formData);
+    }
+
+    updateSubscription(formData, uuid) {
+        this.baseAPIInstance.baseURL = `${this.URL}/update_subscription/${uuid}`;
 
         let instance = axios.create(this.baseAPIInstance);
 

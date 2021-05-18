@@ -70,10 +70,6 @@
                     <ion-label>{{radiusOptions[3].text}}</ion-label>
                     <ion-radio slot="start" value="50">></ion-radio>
                   </ion-item>
-                  <ion-item >
-                    <ion-label>{{radiusOptions[4].text}}</ion-label>
-                    <ion-radio slot="start" value="100">></ion-radio>
-                  </ion-item>
                 </ion-radio-group>
               </ion-list>
           </ion-item>
@@ -176,6 +172,7 @@
           <ion-button v-if="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)" type="submit" disabled
             >SUBMIT</ion-button
           >
+          <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>
         </div>
       </form>
         </ion-card>
@@ -218,6 +215,7 @@ import { IonRadio, IonRadioGroup, IonPage, IonHeader, IonToolbar, IonTitle, IonC
   IonLabel,
   IonInput,
   IonButton,
+  IonSpinner,
   toastController,
   alertController } from '@ionic/vue';
 //import ExploreContainer from '@/components/ExploreContainer.vue';
@@ -226,6 +224,7 @@ import { menuController } from "@ionic/vue";
 import { mapState } from 'vuex';
 import Login from './login.vue';
 import useDataService from '../services/data.service';
+import userService from '../services/user.service';
 import { reactive, toRef } from "vue";
 import { useRouter } from "vue-router";
 
@@ -241,6 +240,7 @@ import { Plugins } from '@capacitor/core';
 export default  {
   name: 'Tab2',
   components: { IonRadio, IonRadioGroup, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, Login,
+  IonSpinner,
   IonItem,
   IonLabel,
   IonInput,
@@ -265,11 +265,14 @@ export default  {
       },
       showItem: false,
       UUID: "",
-      otpVerified: false
+      otpVerified: false,
+      spinnerOn: false
     }
   },
   setup() {
     const { pinCode, searchRadius } = useDataService();
+
+    const { user } = userService();
 
     const { Clipboard } = Plugins;
 
@@ -367,7 +370,8 @@ export default  {
       ageOptions,
       brandOptions,
       typeOptions,
-      Clipboard
+      Clipboard,
+      user
     }
   },
   computed: {
@@ -424,6 +428,7 @@ methods: {
               text: 'Yes',
               handler: () => {
                 this.resetData();
+                this.$router.replace('/tabs/tab3');
               }
             }
         ]
@@ -431,8 +436,10 @@ methods: {
       return alert.present();
   },
   sendInfo(){
+    this.spinnerOn = true;
     let api = new APIService;
     api.getNearByPinCodes(this.vv.pinCode.$model, this.vv.radius.$model).then((response) => {
+      response.data.pincodes.push(Number(this.vv.pinCode.$model));
         let formData = {
           'old': false,
           'pincodes': response.data.pincodes,
@@ -474,9 +481,21 @@ methods: {
         api.postSubscription(formData).then((response) => {
           if (response.status == 200){
             this.handleToast('Request submitted successfully.');
+            this.spinnerOn = false;
             this.UUID = response.data.uuid;
             if ('email' in formData) {
               this.validateEmailID = true;
+              this.user = {
+                UUID: this.UUID,
+                mobileNumber: this.vv.mobileNumber.$model,
+                emailAddress: this.vv.emailAddress.$model,
+                pinCodes: formData.pincodes,
+                age: this.vv.age.$model,
+                vaccineBrand: this.vv.vaccineBrand.$model,
+                vaccineType: this.vv.vaccineType.$model,
+                period: this.vv.period.$model,
+                emailVerified: true
+              };
             }
           }
         })

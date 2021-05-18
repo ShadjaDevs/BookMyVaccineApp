@@ -1,8 +1,8 @@
 {
-  "appId": "app.test.test",
-  "appName": "VaccineBeku",
+  "appId": "app.bookmyvaccine.test",
+  "appName": "BookMyVaccine",
   "bundledWebRuntime": false,
-  "npmClient": "npm",
+  "npmClient": "yarn",
   "webDir": "dist",
   "plugins": {
     "SplashScreen": {

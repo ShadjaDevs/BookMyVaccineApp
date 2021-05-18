@@ -1,12 +1,10 @@
 import { ref } from "vue";
 
 const user = ref(0);
-const searchRadius = ref(0);
 
 export default function () {
   return {
-    user,
-    searchRadius
+    user
   };
 }
 /*Covaxin F

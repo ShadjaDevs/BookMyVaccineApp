@@ -12,9 +12,9 @@
           <ion-label>Sign up for updates</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button v-show="showItem" tab="tab3" href="/tabs/tab3">
+        <ion-tab-button tab="tab3" href="/tabs/tab3">
           <ion-icon :icon="megaphone"/>
-          <ion-label>My Subscriptions</ion-label>
+          <ion-label>Subscriptions</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
