@@ -12,7 +12,7 @@
           Navigate
         </ion-list-header>
         <ion-menu-toggle auto-hide="false">
-          <ion-item button @click="$router.replace('/login')">
+          <!-- <ion-item button @click="$router.replace('/login')">
             <ion-icon
               slot="start"
               name='home'
@@ -20,8 +20,8 @@
             <ion-label>
               Login
             </ion-label>
-          </ion-item>
-          <ion-item button @click="$router.replace('/signup')">
+          </ion-item> -->
+          <!-- <ion-item button @click="$router.replace('/signup')">
             <ion-icon
               slot="start"
               name='home'
@@ -29,7 +29,7 @@
             <ion-label>
               Sign Up
             </ion-label>
-          </ion-item>
+          </ion-item> -->
           <ion-item button @click="$router.replace('/tabs/subscribe')">
             <ion-icon
               slot="start"
@@ -40,7 +40,7 @@
             </ion-label>
           </ion-item>
 
-          <ion-item button @click="$router.replace('/about')">
+          <!-- <ion-item button @click="$router.replace('/about')">
             <ion-icon
               slot="start"
               name='home'
@@ -48,7 +48,7 @@
             <ion-label>
               About
             </ion-label>
-          </ion-item>
+          </ion-item> -->
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
