@@ -76,6 +76,13 @@
           </ion-button>
           </ion-item>
         </ion-card>
+        <ion-card v-show="!user.emailVerified">
+          <ion-item>
+            <ion-input type="numeric" name="emailOTP" @input="updateOTPEmail($event.target.value)"/>
+          </ion-item>
+          <p class="formInfo"> Please enter the 4 digit OTP sent to your email, it may also be in your spam box. You can edit your email down below, if needed. REMEMBER, no notifications will be sent if the email is not verified. </p>
+          <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
+        </ion-card>
         <ion-card>
           <ion-item>
             <ion-card-content>
@@ -104,7 +111,8 @@
           </div>
         </ion-card>
 
-        <ion-card>
+        <!-- To Do - Open up -->
+        <!-- <ion-card>
           <ion-item>
             <ion-card-content>
               Mobile: {{ user.mobileNumber }}
@@ -125,7 +133,7 @@
               </ion-button>
             </ion-item>
           </div>
-        </ion-card>
+        </ion-card> -->
 
         <ion-card>
           <ion-item>
@@ -332,7 +340,7 @@ import APIService from '../services/APIService.js';
 
 
 export default  {
-  name: 'Tab2',
+  name: 'Tab3',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonSpinner,
   IonButton,
   IonCard },
@@ -471,28 +479,24 @@ export default  {
   //   }
   // },
 methods: {
-  async handleToast() {
+  async handleToast(m) {
       const toast = await toastController.create({
         color: 'dark',
         duration: 2000,
         position: 'bottom',
-        message: 'Subscription deleted'
+        message: m
       });
 
       await toast.present();
     },
   openStart() {
       menuController.open("mainMenu");
-      //let a = document.querySelector('#startDate');
-      console.log(this.startDate);
-      console.log(this.zipCode, this.searchRadius);
-      this.formatDate(this.subscriptions);
     },
   async deleteSub() {
       let api = new APIService;
       api.removeSubscription(this.user.UUID).then((response) => {
         if (response.status == 200) {
-            this.handleToast();
+            this.handleToast('Subscription deleted');
             setTimeout(() => { this.resetData(); }, 1000);
         }
       });
@@ -520,6 +524,14 @@ methods: {
         ]
         });
       return alert.present();
+  },
+  dateToString(dateObj) {
+    let tempDate = new Date(dateObj);
+    let dd = String(tempDate.getDate()).padStart(2, '0');
+    let mm = String(tempDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = tempDate.getFullYear();
+    let strToRet = dd + '-' + mm + '-' + yyyy;
+    return strToRet; 
   },
   resetData(){
     this.user = {};
@@ -576,17 +588,7 @@ methods: {
     api.getUUIDDetails(this.searchUUID).then((response) => {
       if (response.status == 200) {
         let subData = response.data.subscription;
-        this.user = {
-          UUID: '690dba0c-b376-47a9-a587-e800cab2f86e',
-          age: '1',
-          emailAddress: 'chandan.gohan3@gmail.com',
-          emailVerified: true,
-          mobileNumber: '',
-          period: '7',
-          pinCodes :[560001, 560002, 560003, 560097],
-          vaccineBrand: "Both",
-          vaccineType: "Both"
-        };
+        this.user = {};
 
         this.user.UUID = subData.uuid;
         this.user.age = subData.old ? '2' : '1';
@@ -595,15 +597,16 @@ methods: {
         this.user.mobileNumber = subData.mobile ? subData.mobile : "";
         this.user.mobileVerified = subData.verified_mobile;
         this.user.startDate = subData.startDate;
+        this.user.pinCodes = subData.pincodes;
 
         let startDate = new Date(subData.start_date);
         let endDate = new Date(subData.end_date);
         let diffInDays = this.diffInDays(startDate, endDate);
 
-        this.user.period = diffInDays > 3650 ? 0 : diffInDays; 
+        this.user.period = diffInDays > 3650 ? 0 : diffInDays + 1; 
 
         this.user.vaccineBrand = subData.flavor == null ? "Both" : subData.flavor;
-        this.vaccineType = subData.want_free == null ? "Both" : (subData.want_free ? "Free" : "Paid");
+        this.user.vaccineType = subData.want_free == null ? "Both" : (subData.want_free ? "Free" : "Paid");
 
         this.enableUpdate = false;
         this.spinnerOn = false;
@@ -746,12 +749,12 @@ methods: {
         } else {
           endDate = null;
         }
-        formData.end_date = this.dateToString(endDate);
+        formData.end_date = endDate ? this.dateToString(endDate) : null;
       }
 
       let a = [];
       for (let i = 0; i < this.vv.pinCodes.$model.length; i ++) {
-        a.push(this.vv.pinCodes.$model[i])
+        a.push(Number(this.vv.pinCodes.$model[i]));
       }
       for (let i = 0; i < this.user.pinCodes.length; i ++) {
         a.push(this.user.pinCodes[i])
@@ -784,10 +787,10 @@ methods: {
           this.validateEmailID = true;
           let temp = this.user;
           this.user = {
-            UUID: this.UUID || temp.UUID,
+            UUID: formData.uuid || temp.UUID,
             mobileNumber: this.vv.mobileNumber.$model || temp.mobileNumber,
             emailAddress: this.vv.emailAddress.$model || temp.emailAddress,
-            pinCodes: this.vv.pinCodes.$model || temp.pinCodes,
+            pinCodes: formData.pincodes || temp.pinCodes,
             age: this.vv.age.$model || temp.age,
             vaccineBrand: this.vv.vaccineBrand.$model || temp.vaccineBrand,
             vaccineType: this.vv.vaccineType.$model || temp.vaccineType,
@@ -814,6 +817,27 @@ methods: {
     this.showEditVaccineBrand = false;
     this.showEditVaccineType = false;
     this.showEditPeriod = false;
+  },
+  sendOTPInfo() {
+    let api = new APIService;
+    let formData = {};
+    if (this.userEmailOTP && this.userEmailOTP.length === 4) {
+      formData.otp_email = Number(this.userEmailOTP);
+    }
+    api.postOTP(formData, this.user.UUID).then((response) => {
+      if (response.status == 200) {
+        if (response.data.success) {
+          this.handleToast('OTP verified successfully');
+          this.user.emailVerified = true;
+          //console.log(this.userMobileOTP, this.userEmailOTP);
+        } else {
+        this.handleToast('Wrong OTP keyed in. Please check your OTP and try again.');
+        }
+      } 
+    });
+  },
+  updateOTPEmail(value) {
+    this.userEmailOTP = value;
   }
 },
 }

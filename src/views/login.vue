@@ -76,7 +76,7 @@ export default {
         this.form.username = "";
         this.form.password = "";
         this.user.value = data;
-        this.router.push("/tabs/tab2");
+        this.router.push("/tabs/subscribe");
       }).catch(async (err) => {
         const errorAlert = await alertController
             .create({

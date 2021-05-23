@@ -7,12 +7,12 @@
           <ion-label>Search by ZIP code</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
+        <ion-tab-button tab="subscribe" href="/tabs/subscribe">
           <ion-icon :icon="notifications" />
           <ion-label>Sign up for updates</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="tab3" href="/tabs/tab3">
+        <ion-tab-button tab="subscriptions" href="/tabs/subscriptions">
           <ion-icon :icon="megaphone"/>
           <ion-label>Subscriptions</ion-label>
         </ion-tab-button>

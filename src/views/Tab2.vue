@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-row>
-        <ion-col size = "1" v-show="showItem">
+        <ion-col size = "1">
           <ion-button @click="openStart">
             <ion-icon :icon="menuOutline"></ion-icon>
           </ion-button>
@@ -15,18 +15,19 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-if='!isAuthenticated'>
         <div v-show="!(validateMobileNumber || validateEmailID)">
         <ion-card id = "details">
          <form @submit.prevent="onSubmit" novalidate>
 
-        <div>
+
+        <!-- To Do - Open up -->
+        <!-- <div>
           <ion-item>
             <ion-label position="floating">Mobile Number</ion-label>
             <ion-input type="numeric" name="mobileNumber" v-model="vv.mobileNumber.$model"/>
           </ion-item>
           <p class="formInfo"> Please enter a valid mobile number</p>
-        </div>
+        </div> -->
 
         <div>
           <ion-item>
@@ -45,7 +46,7 @@
             <ion-label position="floating">Pincode</ion-label>
             <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/>
           </ion-item>
-          <p class="formInfo">Please enter a valid pincode</p>
+          <p class="formInfo">Please enter a valid pincode nearest to you</p>
         </div>
 
         <div>
@@ -53,7 +54,7 @@
           <!-- <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/> -->
           <ion-item>
               <ion-list>
-                <ion-radio-group v-model="vv.radius.$model" value="100">
+                <ion-radio-group v-model="vv.radius.$model" value="25">
                   <ion-item >
                     <ion-label>{{radiusOptions[0].text}}</ion-label>
                     <ion-radio slot="start" value="5">></ion-radio>
@@ -196,15 +197,14 @@
           <ion-item v-show="validateEmailID">
             <ion-input type="numeric" name="emailOTP" v-model="userEmailOTP"/>
           </ion-item>
-          <p class="formInfo"> Please enter the 4 digit OTP sent to your email</p>
+          <p class="formInfo"> Please enter the 4 digit OTP sent to your email, it may also be in your spam box. REMEMBER, no notifications will be sent if the email is not verified.</p>
         </div>
         <div>
           <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
         </div>
         </ion-card>
       </div>
-      </div>
-      <login v-else id="login" emitMetaData="recieveMetaData($event)"></login>
+      <!-- <login v-else id="login" emitMetaData="recieveMetaData($event)"></login> -->
     </ion-content>
   </ion-page>
 </template>
@@ -222,7 +222,7 @@ import { IonRadio, IonRadioGroup, IonPage, IonHeader, IonToolbar, IonTitle, IonC
 import { menuOutline } from 'ionicons/icons';
 import { menuController } from "@ionic/vue";
 import { mapState } from 'vuex';
-import Login from './login.vue';
+//import Login from './login.vue';
 import useDataService from '../services/data.service';
 import userService from '../services/user.service';
 import { reactive, toRef } from "vue";
@@ -239,7 +239,7 @@ import { Plugins } from '@capacitor/core';
 
 export default  {
   name: 'Tab2',
-  components: { IonRadio, IonRadioGroup, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, Login,
+  components: { IonRadio, IonRadioGroup, IonHeader, IonToolbar, IonTitle, IonContent, IonPage,
   IonSpinner,
   IonItem,
   IonLabel,
@@ -263,7 +263,6 @@ export default  {
         vaccineType: '',
         dateSubscribed: ''
       },
-      showItem: false,
       UUID: "",
       otpVerified: false,
       spinnerOn: false
@@ -377,6 +376,13 @@ export default  {
   computed: {
       ...mapState("auth", ['isAuthenticated'])
   },
+  created() {
+    this.vv.pinCode.$model = "";
+    this.vv.radius.$model = "25";
+    this.vv.vaccineBrand.$model = "Both";
+    this.vv.vaccineType.$model = "Both";
+    this.vv.period.$model = "0";
+  },
 methods: {
   async handleToast(m) {
       const toast = await toastController.create({
@@ -398,8 +404,6 @@ methods: {
   },
   openStart() {
       menuController.open("mainMenu");
-      //let a = document.querySelector('#startDate');
-      console.log(this.vv);
     },
   updateSubscription(event) {
     console.log(event);
@@ -428,7 +432,7 @@ methods: {
               text: 'Yes',
               handler: () => {
                 this.resetData();
-                this.$router.replace('/tabs/tab3');
+                this.$router.replace('/tabs/subscriptions');
               }
             }
         ]
@@ -443,7 +447,6 @@ methods: {
         let formData = {
           'old': false,
           'pincodes': response.data.pincodes,
-          'want_free': false,
           'start_date': '',
           'end_date': ''
         };
@@ -524,11 +527,13 @@ methods: {
     }
     api.postOTP(formData, this.UUID).then((response) => {
       if (response.status == 200) {
-        this.handleToast('OTP verified successfully');
-        this.otpVerified = true;
-        setTimeout(() => { this.presentConfirm(); }, 1000);
-        //console.log(this.userMobileOTP, this.userEmailOTP);
-        
+        if (response.data.success) {
+          this.handleToast('OTP verified successfully');
+          this.user.emailVerified = true;
+          //console.log(this.userMobileOTP, this.userEmailOTP);
+        } else {
+        this.handleToast('Wrong OTP keyed in. Please check your OTP and try again.');
+        }
       }
     });
   }

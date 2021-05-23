@@ -1,5 +1,5 @@
 <template>
-  <ion-menu menu-id="mainMenu" v-show="showItem" class="mainMenu" content-id="mainMenu" :auto-hide="false" :disabled="false">
+  <ion-menu menu-id="mainMenu" class="mainMenu" content-id="mainMenu" :auto-hide="false" :disabled="false">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Menu</ion-title>
@@ -30,7 +30,7 @@
               Sign Up
             </ion-label>
           </ion-item>
-          <ion-item button @click="$router.replace('/tabs/tab1')">
+          <ion-item button @click="$router.replace('/tabs/subscribe')">
             <ion-icon
               slot="start"
               name='home'
@@ -65,8 +65,7 @@
     },
     data() {
         return {
-          hideMenu: true,
-          showItem: false
+          hideMenu: true
         }
     }
   };
