@@ -28,7 +28,7 @@
           </ion-item>
           <p class="formInfo"> Please enter a valid mobile number</p>
         </div> -->
-        <h2 class = 'priority'>Subscribe today to get notified of a vaccine slot near you</h2>
+        <h2 class = 'priority'>Subscribe today for free to get notified of a vaccine slot near you</h2>
 
         <div>
           <ion-item>
