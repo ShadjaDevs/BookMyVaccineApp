@@ -17,19 +17,19 @@
       <ion-content :fullscreen="true">
         <ion-card>
             <ion-card-content>
-            <ion-title class = 'ionTitle'> What is this? </ion-title>
+            <ion-card-title> What is this? </ion-card-title>
             <p> A subscription platform to get alerts when vaccine appointments become available for your elected settings. </p>
             </ion-card-content>
         </ion-card>
         <ion-card>
             <ion-card-content>
-            <ion-title class = 'ionTitle'> How are we different? </ion-title>
+            <ion-card-title> How are we different? </ion-card-title>
             <p> Our biggest difference and the biggest advantage we provide is our 'Pincode + Radius' search, an easy way to compile all the pincodes within your reach. </p>
             </ion-card-content>
         </ion-card>
         <ion-card>
             <ion-card-content>
-            <ion-title class = 'ionTitle'> What features do we provide? </ion-title>
+            <ion-card-title> What features do we provide? </ion-card-title>
             <p> We provide the following features </p>
             <ul>
                 <li> Pincode + Radius search: It is hard to manually compile all the pincodes near us. Our tool makes it easy for you to specify your picode and how far you are willing to travel. We use that input to compute all the pincodes that lie within the search radius.</li>
@@ -40,14 +40,14 @@
         </ion-card>
         <ion-card class>
             <ion-card-content>
-            <ion-title class = 'ionTitle'> Summary? </ion-title>
+            <ion-card-title> Summary? </ion-card-title>
             <p> High relevance. We only send a notification when there is a slot matching your requirements within 'N' kilometers from you. An example of our notification which will be sent to you- </p>
             <img src="../assets/SampleNotification.png">
             </ion-card-content>
         </ion-card>
         <ion-card class = "details">
             <ion-card-content>
-            <p> In case of anything or if you want to report a bug, please write us a mail at 'shadjadevs@gmail.com'. </p>
+            <p> In case of anything or if you want to report a bug, please write us a mail at 'appointments@bookmyvaccine.app'. </p>
             </ion-card-content>
         </ion-card>
       </ion-content>

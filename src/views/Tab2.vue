@@ -173,6 +173,7 @@
           <ion-button v-if="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)" type="submit" disabled
             >SUBMIT</ion-button
           >
+          <p>BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform. We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf. This site is in BETA and we do NOT guarantee accuracy of the information. Request you to verify before proceeding. By clicking SUBMIT, you agree that you have read and understood this disclaimer.</p>
           <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>
         </div>
       </form>
