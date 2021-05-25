@@ -41,7 +41,8 @@
         <ion-card class>
             <ion-card-content>
             <ion-title class = 'ionTitle'> Summary? </ion-title>
-            <p> High relevance. We only send a notification when there is a slot matching your requirements within 'N' kilometers from you. </p>
+            <p> High relevance. We only send a notification when there is a slot matching your requirements within 'N' kilometers from you. An example of our notification which will be sent to you- </p>
+            <img src="../assets/SampleNotification.png">
             </ion-card-content>
         </ion-card>
         <ion-card class = "details">
