@@ -28,18 +28,7 @@
           </ion-item>
           <p class="formInfo"> Please enter a valid mobile number</p>
         </div> -->
-
-        <div>
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input
-              type="email"
-              name="emailAddress"
-              v-model="vv.emailAddress.$model"
-            />
-          </ion-item>
-          <p class="formInfo"> Please enter a valid email address</p>
-        </div>
+        <h2 class = 'priority'>Subscribe today to get notified of a vaccine slot near you</h2>
 
         <div>
           <ion-item>
@@ -166,6 +155,18 @@
                 </ion-radio-group>
               </ion-list>
           </ion-item>
+        </div>
+
+         <div>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input
+              type="email"
+              name="emailAddress"
+              v-model="vv.emailAddress.$model"
+            />
+          </ion-item>
+          <p class="formInfo"> Please enter a valid email address</p>
         </div>
 
         <div>
@@ -564,5 +565,8 @@ methods: {
 .mainTitle {
   margin-left: 5px;
   padding-top: 10px;
+}
+.priority {
+  color : red;
 }
 </style>
