@@ -63,6 +63,7 @@
                 </ion-radio-group>
               </ion-list>
           </ion-item>
+          <p class="formInfo">Select a search radius. The above entered pincode will act as the center.</p>
         </div>
 
         <div>
