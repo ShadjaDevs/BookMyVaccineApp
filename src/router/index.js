@@ -25,25 +25,33 @@ const routes = [
       {
         path: 'subscriptions',
         component: () => import('@/views/Tab3.vue')
+      },
+      {
+        path: 'about',
+        component: () => import('@/views/about.vue')
       }
     ]
   },
   {
-    path: '/login',
-    component: () => import('@/views/login.vue'),
-    meta: {
-      public: true,
-      onlyWhenLoggedOut: true
-    }
-  },
-  {
-    path: '/signup',
-    component: import('@/views/signup1.vue'),
-    meta: {
-      public: true,
-      onlyWhenLoggedOut: true
-    }
+    path: '/about',
+    component: () => import('@/views/about.vue')
   }
+  // {
+  //   path: '/login',
+  //   component: () => import('@/views/login.vue'),
+  //   meta: {
+  //     public: true,
+  //     onlyWhenLoggedOut: true
+  //   }
+  // },
+  // {
+  //   path: '/signup',
+  //   component: import('@/views/signup1.vue'),
+  //   meta: {
+  //     public: true,
+  //     onlyWhenLoggedOut: true
+  //   }
+  // }
 ]
 
 const router = createRouter({

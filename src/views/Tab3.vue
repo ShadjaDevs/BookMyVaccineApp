@@ -482,7 +482,7 @@ methods: {
   async handleToast(m) {
       const toast = await toastController.create({
         color: 'dark',
-        duration: 2000,
+        duration: 3000,
         position: 'bottom',
         message: m
       });
@@ -583,42 +583,48 @@ methods: {
     return diffDays;
   },
   findUUIDDetails() {
-    this.spinnerOn = true;
-    let api = new APIService();
-    api.getUUIDDetails(this.searchUUID).then((response) => {
-      if (response.status == 200) {
-        let subData = response.data.subscription;
-        this.user = {};
+    if (this.searchUUID && this.searchUUID.length == 36) {
+      this.spinnerOn = true;
+      let api = new APIService();
+      api.getUUIDDetails(this.searchUUID).then((response) => {
+        if (response.status == 200) {
+          let subData = response.data.subscription;
+          this.user = {};
 
-        this.user.UUID = subData.uuid;
-        this.user.age = subData.old ? '2' : '1';
-        this.user.emailAddress = subData.email;
-        this.user.emailVerified = subData.verified_email;
-        this.user.mobileNumber = subData.mobile ? subData.mobile : "";
-        this.user.mobileVerified = subData.verified_mobile;
-        this.user.startDate = subData.startDate;
-        this.user.pinCodes = subData.pincodes;
+          this.user.UUID = subData.uuid;
+          this.user.age = subData.old ? '2' : '1';
+          this.user.emailAddress = subData.email;
+          this.user.emailVerified = subData.verified_email;
+          this.user.mobileNumber = subData.mobile ? subData.mobile : "";
+          this.user.mobileVerified = subData.verified_mobile;
+          this.user.startDate = subData.startDate;
+          this.user.pinCodes = subData.pincodes;
 
-        let startDate = new Date(subData.start_date);
-        let endDate = new Date(subData.end_date);
-        let diffInDays = this.diffInDays(startDate, endDate);
+          let startDate = new Date(subData.start_date);
+          let endDate = new Date(subData.end_date);
+          let diffInDays = this.diffInDays(startDate, endDate);
 
-        this.user.period = diffInDays > 3650 ? 0 : diffInDays + 1; 
+          this.user.period = diffInDays > 3650 ? 0 : diffInDays + 1; 
 
-        this.user.vaccineBrand = subData.flavor == null ? "Both" : subData.flavor;
-        this.user.vaccineType = subData.want_free == null ? "Both" : (subData.want_free ? "Free" : "Paid");
+          this.user.vaccineBrand = subData.flavor == null ? "Both" : subData.flavor;
+          this.user.vaccineType = subData.want_free == null ? "Both" : (subData.want_free ? "Free" : "Paid");
 
-        this.enableUpdate = false;
-        this.spinnerOn = false;
-      }
-    });
+          this.enableUpdate = false;
+          this.spinnerOn = false;
+        }
+      });
+    } else {
+      this.handleToast("Please enter a valid UUID");
+    }
   },
   updateSearchUUID(val) {
     this.searchUUID = val;
   },
   validateInputEmail(event) {
-      console.log(event);
-      this.enableUpdate = true;
+      let email = event.target.value;
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      this.vv.emailAddress.$model = email;
+      this.enableUpdate = re.test(String(email).toLowerCase());
   },
   validateInputPincodes(event) {
     let pinCodes;

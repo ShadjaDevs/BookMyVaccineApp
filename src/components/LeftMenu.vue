@@ -40,7 +40,7 @@
             </ion-label>
           </ion-item>
 
-          <!-- <ion-item button @click="$router.replace('/about')">
+          <ion-item button @click="$router.replace('/tabs/about')">
             <ion-icon
               slot="start"
               name='home'
@@ -48,7 +48,7 @@
             <ion-label>
               About
             </ion-label>
-          </ion-item> -->
+          </ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>

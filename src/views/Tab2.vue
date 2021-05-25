@@ -16,7 +16,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
         <div v-show="!(validateMobileNumber || validateEmailID)">
-        <ion-card id = "details">
+        <ion-card class = "details">
          <form @submit.prevent="onSubmit" novalidate>
 
 
@@ -178,14 +178,14 @@
       </form>
         </ion-card>
       </div>
-      <div  v-show="validateMobileNumber || validateEmailID"> 
+      <div v-show="validateMobileNumber || validateEmailID" class="details">  
         <ion-card> 
           <div>
             <p> Your UUID is {{ UUID }}. <br> Please copy it and store it a secure place in case you want to make changes to this request in the future. </p>
             <ion-button @click="copyUUID()">Copy UUID</ion-button>
           </div>
         </ion-card>
-        <ion-card class="details">
+        <ion-card>
           <div v-show="validateMobileNumber">
           <ion-item>
             <ion-input type="numeric" name="mobileOTP" v-model="userMobileOTP"/>
@@ -202,6 +202,11 @@
         <div>
           <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
         </div>
+        </ion-card>
+
+        <ion-card>
+          <p> Once your OTP is verified, you will recieve a notification in the following format. <br>If there are more venues in your opted pincode, it will be listed similarly. </p>
+          <img src="../assets/SampleNotification.png">
         </ion-card>
       </div>
       <!-- <login v-else id="login" emitMetaData="recieveMetaData($event)"></login> -->
@@ -497,7 +502,7 @@ methods: {
                 vaccineBrand: this.vv.vaccineBrand.$model,
                 vaccineType: this.vv.vaccineType.$model,
                 period: this.vv.period.$model,
-                emailVerified: true
+                emailVerified: false
               };
             }
           }
@@ -550,7 +555,7 @@ methods: {
   font-weight: 500;
   margin-top: 4px;
 }
-#details {
+.details {
   margin-bottom: 80px;
 }
 .mainTitle {
