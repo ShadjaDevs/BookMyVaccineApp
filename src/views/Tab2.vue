@@ -535,7 +535,9 @@ methods: {
         if (response.data.success) {
           this.handleToast('OTP verified successfully');
           this.user.emailVerified = true;
+          this.otpVerified = true;
           //console.log(this.userMobileOTP, this.userEmailOTP);
+          setTimeout(() => { this.presentConfirm(); }, 1000);
         } else {
         this.handleToast('Wrong OTP keyed in. Please check your OTP and try again.');
         }
