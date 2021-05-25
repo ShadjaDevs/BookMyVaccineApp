@@ -40,10 +40,12 @@
         </ion-card>
         <ion-card class>
             <ion-card-content>
-            <ion-card-title> Summary? </ion-card-title>
+            <ion-card-title> Summary? </ion-card-title> 
             <p> High relevance. We only send a notification when there is a slot matching your requirements within 'N' kilometers from you. An example of our notification which will be sent to you- </p>
-            <img src="../assets/SampleNotification.png">
-            <ion-button @click="$router.replace('/tabs/subscribe')">Subscribe now</ion-button>
+            <div> <img src="../assets/SampleNotification.png"> </div>
+            <div>
+              <ion-button @click="$router.replace('/tabs/subscribe')">Subscribe now</ion-button>
+            </div>
             </ion-card-content>
         </ion-card>
         <ion-card class = "details">
@@ -85,5 +87,10 @@ export default {
 }
 .details {
   margin-bottom: 80px;
+}
+.buttonDisplay {
+  bottom:5px;
+  left:5px;
+  position: absolute;
 }
 </style>
