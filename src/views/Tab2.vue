@@ -173,10 +173,9 @@
         <div>
           <ion-button v-if="!vv.$invalid && (vv.emailAddress.$model || vv.mobileNumber.$model)" type="submit" @click="sendInfo">SUBMIT</ion-button>
           <ion-button v-if="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)" type="submit" disabled
-            >SUBMIT</ion-button
-          >
-          <p>BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform. We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf. This site is in BETA and we do NOT guarantee accuracy of the information. Request you to verify before proceeding. By clicking SUBMIT, you agree that you have read and understood this disclaimer.</p>
+            >SUBMIT</ion-button>
           <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>
+          <p>BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform. We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf. This site is in BETA and we do NOT guarantee accuracy of the information. Request you to verify before proceeding. By clicking SUBMIT, you agree that you have read and understood this disclaimer.</p>
         </div>
       </form>
         </ion-card>
@@ -184,7 +183,7 @@
       <div v-show="validateMobileNumber || validateEmailID" class="details">  
         <ion-card> 
           <div>
-            <p> Your UUID is {{ UUID }}. <br> Please copy it and store it a secure place in case you want to make changes to this request in the future. </p>
+            <p> Your UUID is {{ UUID }}. <br> Please copy it and store it in a secure place in case you want to make changes to this request in the future. </p>
             <ion-button @click="copyUUID()">Copy UUID</ion-button>
           </div>
         </ion-card>
