@@ -71,6 +71,9 @@
           <ion-card-content>
             UUID: {{ user.UUID }}
           </ion-card-content>
+          <ion-button @click="copyUUID()" class = "floatingRight1" slot="end">
+              <ion-icon :icon="copy"/>
+          </ion-button>
           <ion-button @click="presentConfirm(index)" class = "floatingRight2" slot="end">
               <ion-icon :icon="trash"/>
           </ion-button>
@@ -80,7 +83,7 @@
           <ion-item>
             <ion-input type="numeric" name="emailOTP" @input="updateOTPEmail($event.target.value)"/>
           </ion-item>
-          <p class="formInfo"> Please enter the 4 digit OTP sent to your email, it may also be in your spam box. You can edit your email down below, if needed. REMEMBER, no notifications will be sent if the email is not verified. </p>
+          <p class="formInfo"> Please enter the <b>4 digit OTP sent to your email</b>, it may also be in your spam box. You can edit your email down below, if needed. REMEMBER, no notifications will be sent if the email is not verified. </p>
           <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
         </ion-card>
         <ion-card>
@@ -328,7 +331,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem,
   toastController,
   alertController } from '@ionic/vue';
 //import ExploreContainer from '@/components/ExploreContainer.vue';
-import { menuOutline, trash, create, closeCircle, arrowForwardCircle  } from 'ionicons/icons';
+import { menuOutline, trash, create, closeCircle, arrowForwardCircle, copy  } from 'ionicons/icons';
 import { menuController } from "@ionic/vue";
 import { mapState } from 'vuex';
 import userService from '../services/user.service';
@@ -337,6 +340,7 @@ import { required, email, minLength } from "@vuelidate/validators";
 import { isPossiblePhoneNumber } from 'libphonenumber-js';
 import { reactive, toRef } from "vue";
 import APIService from '../services/APIService.js';
+import { Plugins } from '@capacitor/core';
 
 
 export default  {
@@ -369,6 +373,7 @@ export default  {
   },
   setup() {
     const { user } = userService();
+    const { Clipboard } = Plugins;
     const fform = reactive({
       mobileNumber: "",
       emailAddress: "",
@@ -452,14 +457,15 @@ export default  {
       { val: 'Both', text: 'Both' }
     ];
     return {
-      menuOutline, trash, user, create, closeCircle, arrowForwardCircle,
+      menuOutline, trash, user, create, closeCircle, arrowForwardCircle, copy,
       onSubmit,
       vv,
       radiusOptions,
       ageOptions,
       brandOptions,
       typeOptions,
-      subscriptionOptions
+      subscriptionOptions,
+      Clipboard
     }
   },
   computed: {
@@ -844,7 +850,13 @@ methods: {
   },
   updateOTPEmail(value) {
     this.userEmailOTP = value;
-  }
+  },
+  copyUUID() {
+    this.Clipboard.write({
+      string: this.user.UUID
+    });
+    this.handleToast('UUID copied');
+  },
 },
 }
 </script>

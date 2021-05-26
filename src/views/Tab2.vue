@@ -175,7 +175,7 @@
           <ion-button v-if="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)" type="submit" disabled
             >SUBMIT</ion-button>
           <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>
-          <p>BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform. We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf. This site is in BETA and we do NOT guarantee accuracy of the information. Request you to verify before proceeding. By clicking SUBMIT, you agree that you have read and understood this disclaimer.</p>
+          <p><b>Disclaimer:</b> BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform. We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf. This site is in <b>BETA</b> and we do <b>NOT</b> guarantee accuracy of the information you have keyed in. We request you to verify before proceeding. By clicking <b>SUBMIT</b>, you agree that you have read and understood this disclaimer.</p>
         </div>
       </form>
         </ion-card>
@@ -183,7 +183,7 @@
       <div v-show="validateMobileNumber || validateEmailID" class="details">  
         <ion-card> 
           <div>
-            <p> Your UUID is {{ UUID }}. <br> Please copy it and store it in a secure place in case you want to make changes to this request in the future. </p>
+            <p> Your UUID is {{ UUID }}. <br> Please <b>copy it</b> and <b>store it</b> in a secure place in case you want to <b>make changes</b> to this request in the future. </p>
             <ion-button @click="copyUUID()">Copy UUID</ion-button>
           </div>
         </ion-card>
@@ -199,7 +199,7 @@
           <ion-item v-show="validateEmailID">
             <ion-input type="numeric" name="emailOTP" v-model="userEmailOTP"/>
           </ion-item>
-          <p class="formInfo"> Please enter the 4 digit OTP sent to your email, it may also be in your spam box. REMEMBER, no notifications will be sent if the email is not verified.</p>
+          <p class="formInfo"> Please enter the <b>4 digit OTP sent to your email</b>, it may also be in your spam box. REMEMBER, no notifications will be sent if the email is not verified.</p>
         </div>
         <div>
           <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
@@ -404,7 +404,7 @@ methods: {
     this.Clipboard.write({
       string: this.UUID
     });
-    this.handleToast('Copied');
+    this.handleToast('UUID copied');
     if (this.otpVerified) {
       setTimeout(() => { this.presentConfirm(); }, 1000);
     }

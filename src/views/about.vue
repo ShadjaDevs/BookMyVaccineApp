@@ -18,7 +18,7 @@
         <ion-card>
             <ion-card-content>
             <ion-card-title> What is this? </ion-card-title>
-            <p> A subscription platform to get alerts when vaccine appointments become available for your elected settings. You can subscribe for free! </p>
+            <p> A subscription platform to get alerts when vaccine appointments become available for your elected settings. This is a free service, you can subscribe for free! </p>
             </ion-card-content>
         </ion-card>
         <ion-card>
