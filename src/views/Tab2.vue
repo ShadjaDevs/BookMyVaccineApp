@@ -389,6 +389,7 @@ export default  {
     this.vv.vaccineBrand.$model = "Both";
     this.vv.vaccineType.$model = "Both";
     this.vv.period.$model = "0";
+    this.vv.age.$model = "1";
   },
 methods: {
   async handleToast(m) {
