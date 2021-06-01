@@ -15,43 +15,19 @@ const routes = [
         redirect: '/tabs/subscribe'
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1.vue')
+        path: 'about',
+        component: () => import('@/views/about.vue')
       },
       {
         path: 'subscribe',
-        component: () => import('@/views/Tab2.vue')
+        component: () => import('@/views/subscribe.vue')
       },
       {
         path: 'subscriptions',
-        component: () => import('@/views/Tab3.vue')
-      },
-      {
-        path: 'about',
-        component: () => import('@/views/about.vue')
+        component: () => import('@/views/subscriptions.vue')
       }
     ]
-  },
-  {
-    path: '/about',
-    component: () => import('@/views/about.vue')
   }
-  // {
-  //   path: '/login',
-  //   component: () => import('@/views/login.vue'),
-  //   meta: {
-  //     public: true,
-  //     onlyWhenLoggedOut: true
-  //   }
-  // },
-  // {
-  //   path: '/signup',
-  //   component: import('@/views/signup1.vue'),
-  //   meta: {
-  //     public: true,
-  //     onlyWhenLoggedOut: true
-  //   }
-  // }
 ]
 
 const router = createRouter({

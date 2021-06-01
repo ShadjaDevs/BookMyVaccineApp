@@ -1,6 +1,6 @@
 {
   "name": "BookMyVaccine",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -40,5 +40,5 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "vue-jest": "^5.0.0-0"
   },
-  "description": "An Ionic project"
+  "description": "Frontend UI for bookmyvaccine.app, a tool to get notified of available vaccine appointments near you in India"
 }

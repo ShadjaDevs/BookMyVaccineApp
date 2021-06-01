@@ -22,27 +22,11 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { ApiService } from "@/services/api.service";
-import {TokenService} from "@/services/token.service";
-import { store } from "./store";
-import GoogleMap from '@/components/GoogleMap.vue';
 
 const app = createApp(App)
   .use(IonicVue)
-  .use(GoogleMap)
-  .use(router)
-  .use(store);
+  .use(router);
 
-const a = new ApiService(process.env.VUE_APP_ROOT_API);
-const tokenService = new TokenService;
-
-if (tokenService.getToken()) {
-  a.setHeader();
-  a.mountRequestInterceptor();
-  a.mount401Interceptor();
-}
-  
 router.isReady().then(() => {
   app.mount('#app');
 });
-
