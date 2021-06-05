@@ -4,7 +4,11 @@
       <ion-toolbar>
         <ion-row>
           <ion-col>
-            <ion-title class = "mainTitle"> Sign Up For Updates </ion-title>
+            <ion-title class ="mainTitle">
+              <div class="titleicon">
+                <img alt="logo" height="40" src="../../public/assets/icon/android-chrome-192x192.png"> &ensp;BookMyVaccine | Subscribe  
+              </div>
+            </ion-title>
           </ion-col>
         </ion-row>
       </ion-toolbar>
@@ -12,29 +16,46 @@
     <ion-content :fullscreen="true">
       <ion-grid fixed>
         <div v-show="!(validateMobileNumber || validateEmailID)">
-          <ion-card class = "details">
-            <form @submit.prevent="onSubmit" novalidate>
-              <!-- To Do - Open up -->
-              <!-- <div>
-                <ion-item>
-                  <ion-label position="floating">Mobile Number</ion-label>
-                  <ion-input type="numeric" name="mobileNumber" v-model="vv.mobileNumber.$model"/>
-                </ion-item>
-                <p class="formInfo"> Please enter a valid mobile number</p>
-              </div> -->
-              <h2 class = 'priority'>Subscribe today for free to get notified of a covid vaccine slot near you</h2>
+          <form @submit.prevent="onSubmit" novalidate>
+            <ion-card>
+              <ion-card-content>
+                <!-- To Do - Open up -->
+                <!-- <div>
+                  <ion-item>
+                    <ion-label position="floating">Mobile Number</ion-label>
+                    <ion-input type="numeric" name="mobileNumber" v-model="vv.mobileNumber.$model"/>
+                  </ion-item>
+                  <p class="formInfo"> Please enter a valid mobile number</p>
+                </div> -->
+                <h4 class="success">Get notified of vaccine slots near you in 3 simple steps:</h4>
+                <ol>
+                <li>Enter your pincode and preferences</li>
+                <li>Enter your email address where you wish to be notified</li>
+                <li>Verify your email by entering the OTP sent to your email</li>
+                </ol>
+              </ion-card-content>
+            </ion-card>
 
-              <div>
+            <!-- Pincode entering area -->
+            <ion-card>
+              <ion-card-content>
                 <ion-item>
-                  <ion-label position="floating">Pincode</ion-label>
-                  <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/>
+                  <ion-label position="floating">Pincode<font color="red">*</font></ion-label>
+                  <ion-input type="number" autocomplete="postal-code"
+                    autofocus="true" clearInput="true" debounce="400"
+                    enterkeyhint="next" inputmode="numeric" min="100000"
+                    max="999999" name="pincode"
+                    placeholder="6 digit pincode" required="true"
+                    v-model="vv.pinCode.$model"/>
                 </ion-item>
-                <p class="formInfo">Please enter a valid pincode nearest to you</p>
-              </div>
+                <p class="formInfo">Enter your nearest pincode</p>
+                <p class="formInfo" v-if="vv.pinCode.$error && vv.pinCode.$model"><font color="red">Enter a six digit pincode!</font></p>
+              </ion-card-content>
+            </ion-card>
 
-              <div>
-                <ion-label position="floating">Radius</ion-label>
-                <!-- <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/> -->
+            <ion-card>
+              <ion-card-content>
+                <ion-label position="floating">How far can the center be?</ion-label>
                 <ion-item>
                   <ion-list>
                     <ion-radio-group v-model="vv.radius.$model" value="25">
@@ -50,19 +71,15 @@
                         <ion-label>{{radiusOptions[2].text}}</ion-label>
                         <ion-radio slot="start" value="25">></ion-radio>
                       </ion-item>
-                      <ion-item >
+                      <!-- <ion-item >
                         <ion-label>{{radiusOptions[3].text}}</ion-label>
                         <ion-radio slot="start" value="50">></ion-radio>
-                      </ion-item>
+                      </ion-item> -->
                     </ion-radio-group>
                   </ion-list>
                 </ion-item>
-                <p class="formInfo">Select a search radius. The above entered pincode will act as the center.</p>
-              </div>
 
-              <div>
                 <ion-label position="floating">Age</ion-label>
-                <!-- <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/> -->
                 <ion-item>
                     <ion-list>
                       <ion-radio-group v-model="vv.age.$model" value="1">
@@ -77,14 +94,11 @@
                       </ion-radio-group>
                     </ion-list>
                 </ion-item>
-              </div>
 
-              <div>
-                <ion-label position="floating">Vaccine Brand</ion-label>
-                <!-- <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/> -->
+                <ion-label position="floating">Brand</ion-label>
                 <ion-item>
                     <ion-list>
-                      <ion-radio-group v-model="vv.vaccineBrand.$model" value="Both">
+                      <ion-radio-group v-model="vv.vaccineBrand.$model" value='Any'>
                         <ion-item >
                           <ion-label>{{brandOptions[0].text}}</ion-label>
                           <ion-radio slot="start" value="Covaxin">></ion-radio>
@@ -95,19 +109,16 @@
                         </ion-item>
                         <ion-item >
                           <ion-label>{{brandOptions[2].text}}</ion-label>
-                          <ion-radio slot="start" value="Both">></ion-radio>
+                          <ion-radio slot="start" value='Any'>></ion-radio>
                         </ion-item>
                       </ion-radio-group>
                     </ion-list>
                 </ion-item>
-              </div>
 
-              <div>
                 <ion-label position="floating">Vaccine Type</ion-label>
-                <!-- <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/> -->
                 <ion-item>
                     <ion-list>
-                      <ion-radio-group v-model="vv.vaccineType.$model" value="Both">
+                      <ion-radio-group v-model="vv.vaccineType.$model" value='Any'>
                         <ion-item >
                           <ion-label>{{typeOptions[0].text}}</ion-label>
                           <ion-radio slot="start" value="Free">></ion-radio>
@@ -118,16 +129,13 @@
                         </ion-item>
                         <ion-item >
                           <ion-label>{{typeOptions[2].text}}</ion-label>
-                          <ion-radio slot="start" value="Both">></ion-radio>
+                          <ion-radio slot="start" value='Any'>></ion-radio>
                         </ion-item>
                       </ion-radio-group>
                     </ion-list>
                 </ion-item>
-              </div>
 
-              <div>
                 <ion-label position="floating">Subscription Period</ion-label>
-                <!-- <ion-input type="numeric" name="mobileNumber" v-model="vv.pinCode.$model"/> -->
                 <ion-item>
                     <ion-list>
                       <ion-radio-group v-model="vv.period.$model" value="0">
@@ -150,61 +158,101 @@
                       </ion-radio-group>
                     </ion-list>
                 </ion-item>
-              </div>
+              </ion-card-content>
+            </ion-card>
 
-              <div>
+            <ion-card>
+              <ion-card-content>
                 <ion-item>
                   <ion-label position="floating">Email</ion-label>
-                  <ion-input
-                    type="email"
-                    name="emailAddress"
-                    v-model="vv.emailAddress.$model"
-                  />
+                  <ion-input type="email" autocomplete="email"
+                      clearInput="true" debounce="400"
+                      enterkeyhint="next" inputmode="email" name="emailAddress"
+                      required="true" v-model="vv.emailAddress.$model"/>
                 </ion-item>
                 <p class="formInfo"> Please enter a valid email address</p>
-              </div>
-
-              <div>
-                <ion-button v-if="!vv.$invalid && (vv.emailAddress.$model || vv.mobileNumber.$model)" type="submit" @click="sendInfo">SUBMIT</ion-button>
-                <ion-button v-if="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)" type="submit" disabled
-                  >SUBMIT</ion-button>
+                <p class="formInfo" v-if="vv.emailAddress.$error && vv.emailAddress.$model"><font color="red">Enter a valid email address!</font></p>
+                <ion-button :disabled="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)" type="submit" @click="sendInfo">
+                  SUBMIT
+                </ion-button>
+                <p class="formInfo" v-if="vv.$invalid || (!vv.emailAddress.$model && !vv.mobileNumber.$model)">
+                  <font color="red">
+                    Enter valid pincode and email to submit!
+                  </font>
+                </p>
                 <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>
-                <p><b>Disclaimer:</b> BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform. We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf. This site is in <b>BETA</b> and we do <b>NOT</b> guarantee accuracy of the information you have keyed in. We request you to verify before proceeding. By clicking <b>SUBMIT</b>, you agree that you have read and understood this disclaimer.</p>
-              </div>
-            </form>
-          </ion-card>
+                <p class="formInfo">
+                  <b>Disclaimer:</b> BookMyVaccine.app is not an alternative to CoWIN or any other government recommended platform.
+                  We periodically check for availabilities and send you a notification to help book a slot, we do NOT book an appointment on your behalf.
+                  This site is in <b>BETA</b> and we do <b>NOT</b> guarantee accuracy of the information you have keyed in.
+                  We request you to verify before proceeding.
+                  By clicking <b>SUBMIT</b>, you agree that you have read and understood this disclaimer.
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </form>
         </div>
-        <div v-show="validateMobileNumber || validateEmailID" class="details">  
-          <ion-card> 
-            <div>
-              <p> Your UUID is {{ UUID }}. <br> Please <b>copy it</b> and <b>store it</b> in a secure place in case you want to <b>make changes</b> to this request in the future. </p>
-              <ion-button @click="copyUUID()">Copy UUID</ion-button>
-            </div>
-          </ion-card>
-          <ion-card>
-            <div v-show="validateMobileNumber">
+
+        <!-- After submit UI -->
+        <ion-card class="ion-text-center" v-show="validateEmailID && !otpVerified">
+          <ion-card-header>
+            <ion-card-title>Enter OTP</ion-card-title>
+            <ion-card-subtitle>Verify your email</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
             <ion-item>
-              <ion-input type="numeric" name="mobileOTP" v-model="userMobileOTP"/>
+              <ion-input type="numeric" clearInput="true" debounce="400"
+                enterkeyhint="next" inputmode="numeric" min="0000"
+                max="9999" placeholder="4 digit OTP"
+                name="emailOTP" v-model="userEmailOTP"/>
             </ion-item>
-            <p class="formInfo"> Please enter the 4 digit OTP sent to your mobile</p>
-          </div>
+            <p class="formInfo"> Please enter the <b>4 digit OTP sent to your email</b>, it may also be in your spam folder.</p>
+            <ion-button :disabled="userEmailOTP.length != 4" type="submit" @click="sendOTPInfo">
+                SUBMIT
+            </ion-button>
+            <p class="formInfo" v-show="userEmailOTP.length && (userEmailOTP.length != 4)">
+                <font color="red">
+                  OTP is 4 digits
+                </font>
+              </p>
+            <p class="formInfo"> REMEMBER! Only verified emails get notifications</p>
+          </ion-card-content>
+        </ion-card>
 
-          <div>
-            <ion-item v-show="validateEmailID">
-              <ion-input type="numeric" name="emailOTP" v-model="userEmailOTP"/>
-            </ion-item>
-            <p class="formInfo"> Please enter the <b>4 digit OTP sent to your email</b>, it may also be in your spam box. REMEMBER, no notifications will be sent if the email is not verified.</p>
-          </div>
-          <div>
-            <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
-          </div>
-          </ion-card>
-
-          <ion-card>
-            <p> Once your OTP is verified, you will recieve a notification in the following format. <br>If there are more venues in your opted pincode, it will be listed similarly. </p>
+        <ion-card class="ion-text-center" v-show="otpVerified">
+          <ion-card-header>
+            <ion-card-title>Success!</ion-card-title>
+            <ion-card-subtitle>Your email is verified</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p>
+              When there is a suitable slot matching your preferences, you will be notified by an email like below.
+              <br>
+              If there are more slots in other pincodes/centers, they will be listed similarly.
+            </p>
             <img src="../assets/SampleNotification.png">
-          </ion-card>
-        </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="ion-text-center" v-show="otpVerified">
+          <ion-card-header>
+            <ion-card-title>UUID</ion-card-title>
+            <ion-card-subtitle>Copy this UUID to edit your preferences later</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p>
+              Your UUID is {{ UUID }}.
+              <br>
+              Please <b>copy it</b> and <b>store it</b> in a secure place in case you want to <b>make changes</b> to this request in the future.
+            </p>
+            <ion-button @click="copyUUID()">Copy UUID</ion-button>
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="ion-text-center" v-show="otpVerified">
+          <ion-card-content>
+            <ion-button @click="editPreferences()">Edit my preferences</ion-button>
+          </ion-card-content>
+        </ion-card>
       </ion-grid>
     </ion-content>
   </ion-page>
@@ -295,7 +343,7 @@ export default  {
     }
     const rules = {
       mobileNumber: { isMobileNumberValid },
-      emailAddress: { email },
+      emailAddress: { required, email },
       pinCode: {required, minLength: minLength(6), maxLength: maxLength(6), isNumeric},
       radius: { required },
       age: { required },
@@ -346,13 +394,13 @@ export default  {
     const brandOptions = [
       { val: 'covaxin', text: 'Covaxin' },
       { val: 'covishield', text: 'Covishield' },
-      { val: 'both', text: 'Both' }
+      { val: 'Any', text: 'Any' }
     ];
 
     const typeOptions = [
       { val: 'Free', text: 'Free' },
       { val: 'Paid', text: 'Paid' },
-      { val: 'Both', text: 'Both' }
+      { val: 'Any', text: 'Any' }
     ];
     return {
       subscriptionOptions,
@@ -374,9 +422,9 @@ export default  {
   },
   created() {
     this.vv.pinCode.$model = "";
-    this.vv.radius.$model = "25";
-    this.vv.vaccineBrand.$model = "Both";
-    this.vv.vaccineType.$model = "Both";
+    this.vv.radius.$model = "5";
+    this.vv.vaccineBrand.$model = 'Any';
+    this.vv.vaccineType.$model = 'Any';
     this.vv.period.$model = "0";
     this.vv.age.$model = "1";
   },
@@ -395,9 +443,9 @@ methods: {
       string: this.UUID
     });
     this.handleToast('UUID copied');
-    if (this.otpVerified) {
-      setTimeout(() => { this.presentConfirm(); }, 1000);
-    }
+  },
+  editPreferences() {
+    setTimeout(() => { this.presentConfirm(); }, 1000);
   },
   updateSubscription(event) {
     console.log(event);
@@ -413,24 +461,23 @@ methods: {
   },
   async presentConfirm() {
     const alert = await alertController
-        .create({
-          cssClass: 'my-custom-class',
-          header: 'ALERT',
-          message: 'Did you copy your UUID?',
-          buttons: [
-            {
-              text: 'No',
-              role: 'cancel'
-            },
-            {
-              text: 'Yes',
-              handler: () => {
-                this.resetData();
-                this.$router.replace('/tabs/subscriptions');
-              }
+      .create({
+        header: 'Reminder!',
+        message: 'Did you copy your UUID?',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel'
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.resetData();
+              this.$router.replace('/tabs/subscriptions');
             }
+          }
         ]
-        });
+      });
       return alert.present();
   },
   sendInfo(){
@@ -447,11 +494,11 @@ methods: {
 
         formData.old = this.vv.age.$model === "2";
         
-        if (this.vv.vaccineType.$model != "Both") {
+        if (this.vv.vaccineType.$model != 'Any') {
           formData.want_free = this.vv.vaccineType.$model === "Free";
         }
 
-        if (this.vv.vaccineBrand.$model != 'Both') {
+        if (this.vv.vaccineBrand.$model != 'Any') {
           formData.flavor = this.vv.vaccineBrand.$model.toLowerCase();
         }
 
@@ -526,7 +573,6 @@ methods: {
           this.user.emailVerified = true;
           this.otpVerified = true;
           //console.log(this.userMobileOTP, this.userEmailOTP);
-          setTimeout(() => { this.presentConfirm(); }, 1000);
         } else {
         this.handleToast('Wrong OTP keyed in. Please check your OTP and try again.');
         }
@@ -546,14 +592,16 @@ methods: {
   font-weight: 500;
   margin-top: 4px;
 }
-.details {
-  margin-bottom: 80px;
-}
+
 .mainTitle {
   margin-left: 5px;
   padding-top: 10px;
 }
 .priority {
   color : red;
+}
+.titleicon {
+  display: flex;
+  align-items: center;
 }
 </style>

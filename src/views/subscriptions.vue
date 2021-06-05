@@ -4,7 +4,11 @@
       <ion-toolbar>
         <ion-row>
           <ion-col>
-            <ion-title class = "mainTitle"> My Subscriptions </ion-title>
+            <ion-title class ="mainTitle">
+              <div class="titleicon">
+                <img alt="logo" height="40" src="../../public/assets/icon/android-chrome-192x192.png"> &ensp;BookMyVaccine | Edit Subscription
+              </div>
+            </ion-title>
           </ion-col>
         </ion-row>
       </ion-toolbar>
@@ -842,5 +846,9 @@ methods: {
 }
 #details {
   margin-bottom: 80px !important;
+}
+.titleicon {
+  display: flex;
+  align-items: center;
 }
 </style>
