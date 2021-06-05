@@ -30,8 +30,8 @@
                 <h4 class="success">Get notified of vaccine slots near you in 3 simple steps:</h4>
                 <ol>
                 <li>Enter your pincode and preferences</li>
-                <li>Enter your email address where you wish to be notified</li>
-                <li>Verify your email by entering the OTP sent to your email</li>
+                <li>Enter email address where you wish to be notified</li>
+                <li>Verify your email with OTP</li>
                 </ol>
               </ion-card-content>
             </ion-card>
@@ -46,10 +46,11 @@
                     enterkeyhint="next" inputmode="numeric" min="100000"
                     max="999999" name="pincode"
                     placeholder="6 digit pincode" required="true"
-                    v-model="vv.pinCode.$model"/>
+                    v-model="vv.pinCode.$model" @ionChange="changePincode"/>
                 </ion-item>
                 <p class="formInfo">Enter your nearest pincode</p>
                 <p class="formInfo" v-if="vv.pinCode.$error && vv.pinCode.$model"><font color="red">Enter a six digit pincode!</font></p>
+                <div class="map" id="radiusMap"></div>
               </ion-card-content>
             </ion-card>
 
@@ -58,7 +59,8 @@
                 <ion-label position="floating">How far can the center be?</ion-label>
                 <ion-item>
                   <ion-list>
-                    <ion-radio-group v-model="vv.radius.$model" value="25">
+                    <ion-radio-group v-model="vv.radius.$model" value="25"
+                      @ionChange="changeRadius">
                       <ion-item >
                         <ion-label>{{radiusOptions[0].text}}</ion-label>
                         <ion-radio slot="start" value="5">></ion-radio>
@@ -283,15 +285,24 @@ import APIService from '../services/APIService.js';
 
 import { Plugins } from '@capacitor/core';
 
+import gmapsInit from '../gmaps';
 
 export default  {
   name: 'Tab2',
-  components: { IonRadio, IonRadioGroup, IonHeader, IonToolbar, IonTitle, IonContent, IonPage,
-  IonSpinner,
-  IonItem,
-  IonLabel,
-  IonInput,
-  IonButton },
+  components: {
+    IonRadio,
+    IonRadioGroup,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonPage,
+    IonSpinner,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton
+  },
   data() {
     return {
       model: '',
@@ -312,7 +323,10 @@ export default  {
       },
       UUID: "",
       otpVerified: false,
-      spinnerOn: false
+      spinnerOn: false,
+      geocoder: null,
+      map: null,
+      pincodeCircle: null
     }
   },
   setup() {
@@ -418,7 +432,7 @@ export default  {
     }
   },
   computed: {
-      ...mapState("auth", ['isAuthenticated'])
+    ...mapState("auth", ['isAuthenticated'])
   },
   created() {
     this.vv.pinCode.$model = "";
@@ -428,63 +442,61 @@ export default  {
     this.vv.period.$model = "0";
     this.vv.age.$model = "1";
   },
-methods: {
-  async handleToast(m) {
+  methods: {
+    async handleToast(m) {
       const toast = await toastController.create({
         color: 'dark',
         duration: 2000,
         message: m
       });
-
       await toast.present();
     },
-  copyUUID() {
-    this.Clipboard.write({
-      string: this.UUID
-    });
-    this.handleToast('UUID copied');
-  },
-  editPreferences() {
-    setTimeout(() => { this.presentConfirm(); }, 1000);
-  },
-  updateSubscription(event) {
-    console.log(event);
-    this.subscriptionPeriod = event.detail.value;
-  },
-  dateToString(dateObj) {
-    let tempDate = new Date(dateObj);
-    let dd = String(tempDate.getDate()).padStart(2, '0');
-    let mm = String(tempDate.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = tempDate.getFullYear();
-    let strToRet = dd + '-' + mm + '-' + yyyy;
-    return strToRet; 
-  },
-  async presentConfirm() {
-    const alert = await alertController
-      .create({
-        header: 'Reminder!',
-        message: 'Did you copy your UUID?',
-        buttons: [
-          {
-            text: 'No',
-            role: 'cancel'
-          },
-          {
-            text: 'Yes',
-            handler: () => {
-              this.resetData();
-              this.$router.replace('/tabs/subscriptions');
-            }
-          }
-        ]
+    copyUUID() {
+      this.Clipboard.write({
+        string: this.UUID
       });
-      return alert.present();
-  },
-  sendInfo(){
-    this.spinnerOn = true;
-    let api = new APIService;
-    api.getNearByPinCodes(this.vv.pinCode.$model, this.vv.radius.$model).then((response) => {
-      response.data.pincodes.push(Number(this.vv.pinCode.$model));
+      this.handleToast('UUID copied');
+    },
+    editPreferences() {
+      setTimeout(() => { this.presentConfirm(); }, 1000);
+    },
+    updateSubscription(event) {
+      this.subscriptionPeriod = event.detail.value;
+    },
+    dateToString(dateObj) {
+      let tempDate = new Date(dateObj);
+      let dd = String(tempDate.getDate()).padStart(2, '0');
+      let mm = String(tempDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+      let yyyy = tempDate.getFullYear();
+      let strToRet = dd + '-' + mm + '-' + yyyy;
+      return strToRet; 
+    },
+    async presentConfirm() {
+      const alert = await alertController
+        .create({
+          header: 'Reminder!',
+          message: 'Did you copy your UUID?',
+          buttons: [
+            {
+              text: 'No',
+              role: 'cancel'
+            },
+            {
+              text: 'Yes',
+              handler: () => {
+                this.resetData();
+                this.$router.replace('/tabs/subscriptions');
+              }
+            }
+          ]
+        });
+        return alert.present();
+    },
+    sendInfo(){
+      this.spinnerOn = true;
+      let api = new APIService;
+      api.getNearByPinCodes(this.vv.pinCode.$model, this.vv.radius.$model).then((response) => {
+        response.data.pincodes.push(Number(this.vv.pinCode.$model));
         let formData = {
           'old': false,
           'pincodes': response.data.pincodes,
@@ -543,43 +555,97 @@ methods: {
             }
           }
         })
-        
-    });
-  },
-  resetData()
-  {
-    this.validateMobileNumber = false;
-    this.validateEmailID = false;
-    this.vv.mobileNumber.$model = '';
-    this.vv.emailAddress.$model = '';
-    this.vv.pinCode.$model = '';
-    this.vv.radius.$model = null;
-    this.vv.age.$model = null;
-    this.vv.vaccineBrand.$model = null;
-    this.vv.vaccineType.$model = null;
-    this.vv.period.$model = null;
-    this.otpVerified = false;
-  },
-  sendOTPInfo() {
-    let api = new APIService;
-    let formData = {};
-    if (this.userEmailOTP && this.userEmailOTP.length === 4) {
-      formData.otp_email = Number(this.userEmailOTP);
-    }
-    api.postOTP(formData, this.UUID).then((response) => {
-      if (response.status == 200) {
-        if (response.data.success) {
-          this.handleToast('OTP verified successfully');
-          this.user.emailVerified = true;
-          this.otpVerified = true;
-          //console.log(this.userMobileOTP, this.userEmailOTP);
-        } else {
-        this.handleToast('Wrong OTP keyed in. Please check your OTP and try again.');
-        }
+      });
+    },
+    resetData(){
+      this.validateMobileNumber = false;
+      this.validateEmailID = false;
+      this.vv.mobileNumber.$model = '';
+      this.vv.emailAddress.$model = '';
+      this.vv.pinCode.$model = '';
+      this.vv.radius.$model = null;
+      this.vv.age.$model = null;
+      this.vv.vaccineBrand.$model = null;
+      this.vv.vaccineType.$model = null;
+      this.vv.period.$model = null;
+      this.otpVerified = false;
+    },
+    sendOTPInfo() {
+      let api = new APIService;
+      let formData = {};
+      if (this.userEmailOTP && this.userEmailOTP.length === 4) {
+        formData.otp_email = Number(this.userEmailOTP);
       }
-    });
+      api.postOTP(formData, this.UUID).then((response) => {
+        if (response.status == 200) {
+          if (response.data.success) {
+            this.handleToast('OTP verified successfully');
+            this.user.emailVerified = true;
+            this.otpVerified = true;
+            //console.log(this.userMobileOTP, this.userEmailOTP);
+          } else {
+          this.handleToast('Wrong OTP keyed in. Please check your OTP and try again.');
+          }
+        }
+      });
+    },
+    changePincode(event) {
+      if (event.type=="v-ion-change" && this.vv.pinCode.$model.length==6) {
+        this.geocoder.geocode({
+          address: this.vv.pinCode.$model,
+          region: 'in',
+          componentRestrictions: {
+            'postalCode': this.vv.pinCode.$model,
+            'country': 'IN'
+          }
+        }, (results, status) => {
+          if (status == `OK`) {
+            var result = results.find(item =>
+              (item['geometry']['location_type']=='APPROXIMATE') &&
+              (item['types'][0]=='postal_code'));
+
+            this.map.setCenter(result.geometry.viewport.getCenter());
+            this.map.fitBounds(result.geometry.viewport);
+
+            this.pincodeCircle.setCenter(result.geometry.viewport.getCenter());
+            console.log(result.geometry.viewport);
+          }
+        });
+      }
+    },
+    changeRadius(event) {
+      if (event.type=="v-ion-change") {
+        console.log(this.vv.radius.$model);
+        this.pincodeCircle.setRadius(1000*parseInt(this.vv.radius.$model));
+      }
+    }
+  },
+  async mounted() {
+    try {
+      const google = await gmapsInit();
+      this.geocoder = new google.maps.Geocoder();
+      this.map = new google.maps.Map(document.getElementById("radiusMap"), {
+        center: { lat: 20.593684, lng: 78.96288 },
+        zoom: 4.0,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false
+      });
+      this.pincodeCircle = new google.maps.Circle({
+        strokeColor: "#00FF00", // Green
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#00FF00",
+        fillOpacity: 0.35,
+        map: this.map,
+        center: { lat: 20.593684, lng: 78.96288 },
+        radius: 5000,
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   }
-},
 }
 </script>
 <style scoped>
@@ -603,5 +669,11 @@ methods: {
 .titleicon {
   display: flex;
   align-items: center;
+}
+.map {
+  width: 100%;
+  /* height: 90%; */
+  height: 25rem;
+  /* height: 300px; */
 }
 </style>
