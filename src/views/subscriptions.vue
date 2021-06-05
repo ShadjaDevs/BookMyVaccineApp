@@ -3,179 +3,143 @@
     <ion-header>
       <ion-toolbar>
         <ion-row>
-        <ion-col size = "1">
-          <ion-button @click="openStart">
-            <ion-icon :icon="menuOutline"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-title class = "mainTitle"> My Subscriptions </ion-title>
-        </ion-col>
+          <ion-col>
+            <ion-title class ="mainTitle">
+              <div class="titleicon">
+                <img alt="logo" height="40" src="../../public/assets/icon/android-chrome-192x192.png"> &ensp;BookMyVaccine | Edit Subscription
+              </div>
+            </ion-title>
+          </ion-col>
         </ion-row>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <!-- <div v-if='!isAuthenticated'>
-        <div v-for="(sub, index) in subscriptions" :key="sub">
-        <ion-card>
-            <ion-item>
-            <ion-button @click="presentConfirm(index)" class = "floatingRight" slot="end">
-              <ion-icon :icon="trash"/>
-            </ion-button>
-            <ion-card-content>
-              Mode of contact: {{sub.modeOfContact}} <br>
-              ZipCode: {{sub.zipCode}} <br>
-              Date subscribed: {{ sub.dateSubscribed }} <br>
-              Period: {{sub.period}}
-            </ion-card-content>
-            </ion-item>
-        </ion-card>	
-      </div>
-      </div> -->
-      <div>
+      <ion-grid fixed>
         <div>
-          <ion-item>
-            <ion-searchbar 
-              @ionInput="updateSearchUUID($event.target.value)" 
-              placeholder="UUID"></ion-searchbar>
-            <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>  
-            <ion-button @click="findUUIDDetails()" slot="end">
-              <ion-icon :icon="arrowForwardCircle"/>
-            </ion-button>
-          </ion-item>
+          <div>
+            <ion-item>
+              <ion-searchbar 
+                @ionInput="updateSearchUUID($event.target.value)" 
+                placeholder="UUID">
+              </ion-searchbar>
+              <ion-spinner v-show="spinnerOn" name="dots"></ion-spinner>  
+              <ion-button @click="findUUIDDetails()" slot="end">
+                <ion-icon :icon="arrowForwardCircle"/>
+              </ion-button>
+            </ion-item>
+          </div>
         </div>
-        <!-- <ion-card>
-          <ion-item>
-          <ion-card-content>
-            UUID: {{ user.UUID }} <br>
-            Email: {{ user.emailAddress }} <br>
-            Mobile: {{ user.mobileNumber }} <br>
-            Pincodes: {{ user.pinCodes }} <br>
-            Age: {{ user.age }} <br>
-            Vaccine Brand: {{ user.vaccineBrand }} <br>
-            Vaccine Type: {{ user.vaccineType }} <br>
-            Period: {{ user.period }} <br>
-          </ion-card-content>
-          <ion-button @click="editSubscription()" class = "floatingRight1" slot="end">
-              <ion-icon :icon="create"/>
-          </ion-button>
-          <ion-button @click="presentConfirm(index)" class = "floatingRight2" slot="end">
-              <ion-icon :icon="trash"/>
-          </ion-button>
-          </ion-item>
-        </ion-card> -->
-      </div>
-      <div v-show="user.UUID" id="details">
-        <ion-card>
-          <ion-item>
-          <ion-card-content>
-            UUID: {{ user.UUID }}
-          </ion-card-content>
-          <ion-button @click="copyUUID()" class = "floatingRight1" slot="end">
-              <ion-icon :icon="copy"/>
-          </ion-button>
-          <ion-button @click="presentConfirm(index)" class = "floatingRight2" slot="end">
-              <ion-icon :icon="trash"/>
-          </ion-button>
-          </ion-item>
-        </ion-card>
-        <ion-card v-show="!user.emailVerified">
-          <ion-item>
-            <ion-input type="numeric" name="emailOTP" @input="updateOTPEmail($event.target.value)"/>
-          </ion-item>
-          <p class="formInfo"> Please enter the <b>4 digit OTP sent to your email</b>, it may also be in your spam box. You can edit your email down below, if needed. REMEMBER, no notifications will be sent if the email is not verified. </p>
-          <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
-        </ion-card>
-        <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Email: {{ user.emailAddress }}
-            </ion-card-content>
-            <ion-button v-show="!showEditEmail && !user.emailVerified" @click="showEditEmail=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditEmail">
-          <ion-item>
-            <ion-label position="floating">New Email</ion-label>
-            <ion-input
-              type="email"
-              name="emailAddress"
-              @input="validateInputEmail($event)"
-              v-model="vv.emailAddress.$model"
-            />
-          </ion-item>
-          <ion-item>
-            <p class="formInfo"> Please enter a valid email address</p>
-            <ion-button @click="showEditEmail=false; enableUpdate=true;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="closeCircle"/>
-            </ion-button>
-          </ion-item>
-          </div>
-        </ion-card>
-
-        <!-- To Do - Open up -->
-        <!-- <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Mobile: {{ user.mobileNumber }}
-            </ion-card-content>
-            <ion-button v-show="!showEditMobile" @click="showEditMobile=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditMobile">
+        <div v-show="user.UUID" id="details">
+          <ion-card>
             <ion-item>
-              <ion-label position="floating">New Mobile Number</ion-label>
-              <ion-input type="numeric" name="mobileNumber" @input="validateInputMobile($event)" v-model="vv.mobileNumber.$model"/>
+              <ion-card-content>
+                UUID: {{ user.UUID }}
+              </ion-card-content>
+              <ion-button @click="copyUUID()" class = "floatingRight1" slot="end">
+                <ion-icon :icon="copy"/>
+              </ion-button>
+              <ion-button @click="presentConfirm(index)" class = "floatingRight2" slot="end">
+                <ion-icon :icon="trash"/>
+              </ion-button>
+            </ion-item>
+          </ion-card>
+          <ion-card v-show="!user.emailVerified">
+            <ion-item>
+              <ion-input type="numeric" name="emailOTP" @input="updateOTPEmail($event.target.value)"/>
+            </ion-item>
+            <p class="formInfo"> Please enter the <b>4 digit OTP sent to your email</b>, it may also be in your spam box. You can edit your email down below, if needed. REMEMBER, no notifications will be sent if the email is not verified. </p>
+            <ion-button v-if="userEmailOTP.length == 4" type="submit" @click="sendOTPInfo">SUBMIT</ion-button>
+          </ion-card>
+          <ion-card>
+            <ion-item>
+              <ion-card-content>
+                Email: {{ user.emailAddress }}
+              </ion-card-content>
+              <ion-button v-show="!showEditEmail && !user.emailVerified" @click="showEditEmail=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
+              </ion-button>
+            </ion-item>
+            <div v-show="showEditEmail">
+            <ion-item>
+              <ion-label position="floating">New Email</ion-label>
+              <ion-input
+                type="email"
+                name="emailAddress"
+                @input="validateInputEmail($event)"
+                v-model="vv.emailAddress.$model"
+              />
             </ion-item>
             <ion-item>
-              <p class="formInfo"> Please enter a valid mobile number</p>
-              <ion-button @click="showEditMobile=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+              <p class="formInfo"> Please enter a valid email address</p>
+              <ion-button @click="showEditEmail=false; enableUpdate=true;" class = "floatingRight2" slot="end">
                 <ion-icon :icon="closeCircle"/>
               </ion-button>
             </ion-item>
-          </div>
-        </ion-card> -->
+            </div>
+          </ion-card>
 
-        <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Pincodes: {{ user.pinCodes }}
-            </ion-card-content>
-            <ion-button v-show="!showEditPincodes" @click="showEditPincodes=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditPincodes">
+          <!-- To Do - Open up -->
+          <!-- <ion-card>
             <ion-item>
-              <ion-label position="floating">New Pincodes</ion-label>
-              <ion-input type="text" name="pincodes" @input="validateInputPincodes($event)" v-model="vv.pinCodes.$model"/>
-            </ion-item>
-            <ion-item>
-              <p class="formInfo"> You can add multiple pincodes. Please separate them using a comma. Ex - 560097,560096</p>
-              <ion-button @click="showEditPincodes=false; enableUpdate=true;" class = "floatingRight2" slot="end">
-                <ion-icon :icon="closeCircle"/>
+              <ion-card-content>
+                Mobile: {{ user.mobileNumber }}
+              </ion-card-content>
+              <ion-button v-show="!showEditMobile" @click="showEditMobile=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
               </ion-button>
             </ion-item>
-          </div>
-        </ion-card>
+            <div v-show="showEditMobile">
+              <ion-item>
+                <ion-label position="floating">New Mobile Number</ion-label>
+                <ion-input type="numeric" name="mobileNumber" @input="validateInputMobile($event)" v-model="vv.mobileNumber.$model"/>
+              </ion-item>
+              <ion-item>
+                <p class="formInfo"> Please enter a valid mobile number</p>
+                <ion-button @click="showEditMobile=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+                  <ion-icon :icon="closeCircle"/>
+                </ion-button>
+              </ion-item>
+            </div>
+          </ion-card> -->
 
-        <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Age: {{ findAge(user.age) }}
-            </ion-card-content>
-            <ion-button v-show="!showEditAge" @click="showEditAge=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditAge">
-            <ion-label position="floating">New Age</ion-label>
+          <ion-card>
             <ion-item>
+              <ion-card-content>
+                Pincodes: {{ user.pinCodes }}
+              </ion-card-content>
+              <ion-button v-show="!showEditPincodes" @click="showEditPincodes=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
+              </ion-button>
+            </ion-item>
+            <div v-show="showEditPincodes">
+              <ion-item>
+                <ion-label position="floating">New Pincodes</ion-label>
+                <ion-input type="text" name="pincodes" @input="validateInputPincodes($event)" v-model="vv.pinCodes.$model"/>
+              </ion-item>
+              <ion-item>
+                <p class="formInfo"> You can add multiple pincodes. Please separate them using a comma. Ex - 560097,560096</p>
+                <ion-button @click="showEditPincodes=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+                  <ion-icon :icon="closeCircle"/>
+                </ion-button>
+              </ion-item>
+            </div>
+          </ion-card>
+
+          <ion-card>
+            <ion-item>
+              <ion-card-content>
+                Age: {{ findAge(user.age) }}
+              </ion-card-content>
+              <ion-button v-show="!showEditAge" @click="showEditAge=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
+              </ion-button>
+            </ion-item>
+            <div v-show="showEditAge">
+              <ion-label position="floating">New Age</ion-label>
+              <ion-item>
                 <ion-list>
                   <ion-radio-group @click="validateInputAge($event)" v-model="vv.age.$model">
-                    <ion-item >
+                    <ion-item>
                       <ion-label>{{ageOptions[0].text}}</ion-label>
                       <ion-radio slot="start" value="1">></ion-radio>
                     </ion-item>
@@ -185,28 +149,28 @@
                     </ion-item>
                   </ion-radio-group>
                 </ion-list>
-            </ion-item>
+              </ion-item>
+              <ion-item>
+                <p class="formInfo"></p>
+                <ion-button @click="showEditAge=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+                  <ion-icon :icon="closeCircle"/>
+                </ion-button>
+              </ion-item>
+            </div>
+          </ion-card>
+
+          <ion-card>
             <ion-item>
-              <p class="formInfo"></p>
-              <ion-button @click="showEditAge=false; enableUpdate=true;" class = "floatingRight2" slot="end">
-                <ion-icon :icon="closeCircle"/>
+              <ion-card-content>
+                Vaccine Brand: {{ user.vaccineBrand }}
+              </ion-card-content>
+              <ion-button v-show="!showEditVaccineBrand" @click="showEditVaccineBrand=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
               </ion-button>
             </ion-item>
-          </div>
-        </ion-card>
-
-        <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Vaccine Brand: {{ user.vaccineBrand }}
-            </ion-card-content>
-            <ion-button v-show="!showEditVaccineBrand" @click="showEditVaccineBrand=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditVaccineBrand">
-            <ion-label position="floating">New Vaccine Brand</ion-label>
-            <ion-item>
+            <div v-show="showEditVaccineBrand">
+              <ion-label position="floating">New Vaccine Brand</ion-label>
+              <ion-item>
                 <ion-list>
                   <ion-radio-group @click="validateInputVaccineBrand($event)" v-model="vv.vaccineBrand.$model">
                     <ion-item >
@@ -223,28 +187,28 @@
                     </ion-item>
                   </ion-radio-group>
                 </ion-list>
-            </ion-item>
+              </ion-item>
+              <ion-item>
+                <p class="formInfo"></p>
+                <ion-button @click="showEditVaccineBrand=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+                  <ion-icon :icon="closeCircle"/>
+                </ion-button>
+              </ion-item>
+            </div>
+          </ion-card>
+
+          <ion-card>
             <ion-item>
-              <p class="formInfo"></p>
-              <ion-button @click="showEditVaccineBrand=false; enableUpdate=true;" class = "floatingRight2" slot="end">
-                <ion-icon :icon="closeCircle"/>
+              <ion-card-content>
+                Vaccine Type: {{ user.vaccineType }}
+              </ion-card-content>
+              <ion-button v-show="!showEditVaccineType" @click="showEditVaccineType=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
               </ion-button>
             </ion-item>
-          </div>
-        </ion-card>
-
-        <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Vaccine Type: {{ user.vaccineType }}
-            </ion-card-content>
-            <ion-button v-show="!showEditVaccineType" @click="showEditVaccineType=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditVaccineType">
-            <ion-label position="floating">Vaccine Type</ion-label>
-            <ion-item>
+            <div v-show="showEditVaccineType">
+              <ion-label position="floating">Vaccine Type</ion-label>
+              <ion-item>
                 <ion-list>
                   <ion-radio-group @click="validateInputVaccineType($event)" v-model="vv.vaccineType.$model" value="Both">
                     <ion-item >
@@ -261,64 +225,65 @@
                     </ion-item>
                   </ion-radio-group>
                 </ion-list>
-            </ion-item>
-            <ion-item>
-              <p class="formInfo"></p>
-              <ion-button @click="showEditVaccineType=false; enableUpdate=true;" class = "floatingRight2" slot="end">
-                <ion-icon :icon="closeCircle"/>
-              </ion-button>
-            </ion-item>
-          </div>
-        </ion-card>
+              </ion-item>
+              <ion-item>
+                <p class="formInfo"></p>
+                <ion-button @click="showEditVaccineType=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+                  <ion-icon :icon="closeCircle"/>
+                </ion-button>
+              </ion-item>
+            </div>
+          </ion-card>
 
-        <ion-card>
-          <ion-item>
-            <ion-card-content>
-              Period: {{ findPeriod(user.period) }}
-            </ion-card-content>
-            <ion-button v-show="!showEditPeriod" @click="showEditPeriod=true; enableUpdate=false;" class = "floatingRight2" slot="end">
-              <ion-icon :icon="create"/>
-            </ion-button>
-          </ion-item>
-          <div v-show="showEditPeriod">
-            <ion-label position="floating">New Subscription Period</ion-label>
+          <ion-card>
             <ion-item>
-                <ion-list>
-                  <ion-radio-group @click="validateInputPeriod($event)" v-model="vv.period.$model">
-                    <ion-item >
-                      <ion-label>{{subscriptionOptions[0].text}}</ion-label>
-                      <ion-radio slot="start" value="1">></ion-radio>
-                    </ion-item>
-                    <ion-item >
-                      <ion-label>{{subscriptionOptions[1].text}}</ion-label>
-                      <ion-radio slot="start" value="7">></ion-radio>
-                    </ion-item>
-                    <ion-item >
-                      <ion-label>{{subscriptionOptions[2].text}}</ion-label>
-                      <ion-radio slot="start" value="30">></ion-radio>
-                    </ion-item>
-                    <ion-item >
-                      <ion-label>{{subscriptionOptions[3].text}}</ion-label>
-                      <ion-radio slot="start" value="0">></ion-radio>
-                    </ion-item>
-                  </ion-radio-group>
-                </ion-list>
-            </ion-item>
-            <ion-item>
-              <p class="formInfo"></p>
-              <ion-button @click="showEditPeriod=false; enableUpdate=true;" class = "floatingRight2" slot="end">
-                <ion-icon :icon="closeCircle"/>
+              <ion-card-content>
+                Period: {{ findPeriod(user.period) }}
+              </ion-card-content>
+              <ion-button v-show="!showEditPeriod" @click="showEditPeriod=true; enableUpdate=false;" class = "floatingRight2" slot="end">
+                <ion-icon :icon="create"/>
               </ion-button>
             </ion-item>
+            <div v-show="showEditPeriod">
+              <ion-label position="floating">New Subscription Period</ion-label>
+              <ion-item>
+                  <ion-list>
+                    <ion-radio-group @click="validateInputPeriod($event)" v-model="vv.period.$model">
+                      <ion-item >
+                        <ion-label>{{subscriptionOptions[0].text}}</ion-label>
+                        <ion-radio slot="start" value="1">></ion-radio>
+                      </ion-item>
+                      <ion-item >
+                        <ion-label>{{subscriptionOptions[1].text}}</ion-label>
+                        <ion-radio slot="start" value="7">></ion-radio>
+                      </ion-item>
+                      <ion-item >
+                        <ion-label>{{subscriptionOptions[2].text}}</ion-label>
+                        <ion-radio slot="start" value="30">></ion-radio>
+                      </ion-item>
+                      <ion-item >
+                        <ion-label>{{subscriptionOptions[3].text}}</ion-label>
+                        <ion-radio slot="start" value="0">></ion-radio>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ion-list>
+              </ion-item>
+              <ion-item>
+                <p class="formInfo"></p>
+                <ion-button @click="showEditPeriod=false; enableUpdate=true;" class = "floatingRight2" slot="end">
+                  <ion-icon :icon="closeCircle"/>
+                </ion-button>
+              </ion-item>
+            </div>
+          </ion-card>
+          <div v-show="showEditAge || showEditEmail || showEditMobile || showEditPeriod || showEditPincodes || showEditVaccineBrand || showEditVaccineType">
+            <ion-button v-if="enableUpdate" type="submit" @click="sendUpdate">Update</ion-button>
+            <ion-button v-else type="submit" disabled>Update</ion-button>
+            <ion-spinner v-show="updateSpinnerOn" name="dots"></ion-spinner>
           </div>
-        </ion-card>
-        <div v-show="showEditAge || showEditEmail || showEditMobile || showEditPeriod || showEditPincodes || showEditVaccineBrand || showEditVaccineType">
-          <ion-button v-if="enableUpdate" type="submit" @click="sendUpdate">Update</ion-button>
-          <ion-button v-else type="submit" disabled>Update</ion-button>
-          <ion-spinner v-show="updateSpinnerOn" name="dots"></ion-spinner>
         </div>
-      </div>
-      <ion-alert-controller></ion-alert-controller>
+        <ion-alert-controller></ion-alert-controller>
+      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
@@ -330,9 +295,8 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem,
   IonCard,
   toastController,
   alertController } from '@ionic/vue';
-//import ExploreContainer from '@/components/ExploreContainer.vue';
-import { menuOutline, trash, create, closeCircle, arrowForwardCircle, copy  } from 'ionicons/icons';
-import { menuController } from "@ionic/vue";
+
+import { trash, create, closeCircle, arrowForwardCircle, copy  } from 'ionicons/icons';
 import { mapState } from 'vuex';
 import userService from '../services/user.service';
 import { useVuelidate } from "@vuelidate/core";
@@ -457,7 +421,7 @@ export default  {
       { val: 'Both', text: 'Both' }
     ];
     return {
-      menuOutline, trash, user, create, closeCircle, arrowForwardCircle, copy,
+      trash, user, create, closeCircle, arrowForwardCircle, copy,
       onSubmit,
       vv,
       radiusOptions,
@@ -486,26 +450,23 @@ export default  {
   // },
 methods: {
   async handleToast(m) {
-      const toast = await toastController.create({
-        color: 'dark',
-        duration: 3000,
-        position: 'bottom',
-        message: m
-      });
+    const toast = await toastController.create({
+      color: 'dark',
+      duration: 3000,
+      position: 'bottom',
+      message: m
+    });
 
-      await toast.present();
-    },
-  openStart() {
-      menuController.open("mainMenu");
-    },
+    await toast.present();
+  },
   async deleteSub() {
-      let api = new APIService;
-      api.removeSubscription(this.user.UUID).then((response) => {
-        if (response.status == 200) {
-            this.handleToast('Subscription deleted');
-            setTimeout(() => { this.resetData(); }, 1000);
-        }
-      });
+    let api = new APIService;
+    api.removeSubscription(this.user.UUID).then((response) => {
+      if (response.status == 200) {
+          this.handleToast('Subscription deleted');
+          setTimeout(() => { this.resetData(); }, 1000);
+      }
+    });
   },
   async presentConfirm() {
     const alert = await alertController
@@ -885,5 +846,9 @@ methods: {
 }
 #details {
   margin-bottom: 80px !important;
+}
+.titleicon {
+  display: flex;
+  align-items: center;
 }
 </style>
