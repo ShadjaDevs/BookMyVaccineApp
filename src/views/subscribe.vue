@@ -464,6 +464,9 @@ export default  {
       this.subscriptionPeriod = event.detail.value;
     },
     dateToString(dateObj) {
+      if (dateObj === null) {
+        return null;
+      }
       let tempDate = new Date(dateObj);
       let dd = String(tempDate.getDate()).padStart(2, '0');
       let mm = String(tempDate.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -516,7 +519,7 @@ export default  {
 
         let startDate = new Date(),
             endDate = new Date();
-            
+
         if (this.vv.period.$model != 0) {
             endDate.setDate(endDate.getDate() + Number(this.vv.period.$model) - 1);
         } else {
@@ -608,14 +611,12 @@ export default  {
             this.map.fitBounds(result.geometry.viewport);
 
             this.pincodeCircle.setCenter(result.geometry.viewport.getCenter());
-            console.log(result.geometry.viewport);
           }
         });
       }
     },
     changeRadius(event) {
       if (event.type=="v-ion-change") {
-        console.log(this.vv.radius.$model);
         this.pincodeCircle.setRadius(1000*parseInt(this.vv.radius.$model));
       }
     }

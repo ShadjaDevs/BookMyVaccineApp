@@ -41,7 +41,7 @@
           <ion-card-content>
             <ion-card-title> Features </ion-card-title>
             <ul>
-                <li> <b>Pincode search:</b> Don't know all the pincodes near you? Simply specify your picode and how far you are willing to travel for your vaccine. BookMyVaccine will figure out all the pincodes that lie within the search radius. Want to customize? You can always modify the suggested picodes. </li>
+                <li> <b>Pincode search:</b> Don't know all the pincodes near you? Simply specify your pincode and how far you are willing to travel for your vaccine. BookMyVaccine will figure out all the pincodes that lie within the search radius. Want to customize? You can always modify the suggested picodes. </li>
                 <li> <b>Custom filters:</b> Specify your preference for dates, brand, free/paid vaccine and receive only relevant notifications. </li>
                 <li> <b>Edit filters:</b> Once you subscribe, we provide a UUID key. You can use that key to edit your filters as many times as you like, including adding more pincodes. </li>
                 <li> <b>Easy unsubscribe:</b> Got your vaccine and/or don't wish to be notified any more? Simply click on <i>Unsubscribe from this notification</i> in the email and you will be unsubscribed. </li>
