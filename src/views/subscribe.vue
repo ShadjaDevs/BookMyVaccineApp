@@ -33,6 +33,8 @@
                 <li>Enter email address where you wish to be notified</li>
                 <li>Verify your email with OTP</li>
                 </ol>
+                <h4 class="success">When suitable slots are indentified, you will get an email from us.</h4>
+                <h4 class="success"><font color="red">Use CoWIN app to book your slot with this information.</font></h4>
               </ion-card-content>
             </ion-card>
 
@@ -137,7 +139,7 @@
                     </ion-list>
                 </ion-item>
 
-                <ion-label position="floating">Subscription Period</ion-label>
+                <ion-label position="floating">Receive alerts for</ion-label>
                 <ion-item>
                     <ion-list>
                       <ion-radio-group v-model="vv.period.$model" value="0">
@@ -238,21 +240,21 @@
 
         <ion-card class="ion-text-center" v-show="otpVerified">
           <ion-card-header>
-            <ion-card-title>UUID</ion-card-title>
-            <ion-card-subtitle>Copy this UUID to edit your preferences later</ion-card-subtitle>
+            <ion-card-title>Editing preferences</ion-card-title>
+            <ion-card-subtitle>Copy this key to edit your preferences later</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <p>
-              Your UUID is {{ UUID }}.
+              Your key is <b><font color="green">{{ UUID }}</font></b>.
               <br>
               Please <b>copy it</b> and <b>store it</b> in a secure place in case you want to <b>make changes</b> to this request in the future.
             </p>
-            <ion-button @click="copyUUID()">Copy UUID</ion-button>
+            <ion-button @click="copyUUID()">Copy Key</ion-button>
           </ion-card-content>
         </ion-card>
         <ion-card class="ion-text-center" v-show="otpVerified">
           <ion-card-content>
-            <ion-button @click="editPreferences()">Edit my preferences</ion-button>
+            <ion-button @click="goHome()">Go home</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-grid>
@@ -457,7 +459,7 @@ export default  {
       });
       this.handleToast('UUID copied');
     },
-    editPreferences() {
+    goHome() {
       setTimeout(() => { this.presentConfirm(); }, 1000);
     },
     updateSubscription(event) {
@@ -488,7 +490,7 @@ export default  {
               text: 'Yes',
               handler: () => {
                 this.resetData();
-                this.$router.replace('/tabs/subscriptions');
+                this.$router.go();
               }
             }
           ]

@@ -14,7 +14,7 @@
         
         <ion-tab-button tab="subscriptions" href="/tabs/subscriptions">
           <ion-icon :icon="megaphone"/>
-          <ion-label>My Subscriptions</ion-label>
+          <ion-label>Edit subscription</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
