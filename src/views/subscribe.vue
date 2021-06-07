@@ -33,7 +33,7 @@
                 <li>Enter email address where you wish to be notified</li>
                 <li>Verify your email with OTP</li>
                 </ol>
-                <h4 class="success">When suitable slots are indentified, you will get an email from us.</h4>
+                <h4 class="success">When suitable slots are identified, you will get an email from us.</h4>
                 <h4 class="success"><font color="red">Use CoWIN app to book your slot with this information.</font></h4>
               </ion-card-content>
             </ion-card>
