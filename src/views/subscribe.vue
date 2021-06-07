@@ -18,7 +18,22 @@
         <div v-show="!(validateMobileNumber || validateEmailID)">
           <form @submit.prevent="onSubmit" novalidate>
             <ion-card>
+              <ion-card-header>
+                <ion-card-title> What is BookMyVaccine? </ion-card-title>
+              </ion-card-header>
               <ion-card-content>
+                BookMyVaccine sends you an email whenever a vaccine appointment is available near you.
+                Subscribe today to get notified as soon as new slots are available.
+              </ion-card-content>
+              <ion-card-header>
+                <ion-card-title> Why BookMyVaccine? </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                Unlike other tools, BookMyVaccine searches for available slots in <i><b>all</b></i> pincodes <i><b>around</b></i> you, <i><b>periodically</b></i>.
+                Whenever a slot matching your preferences is found, you will receive an email with the details.<br>
+                <p class="formInfo"><font color="red">Please use CoWIN app to book your slot with this information.</font></p>
+              </ion-card-content>
+              <!-- <ion-card-content> -->
                 <!-- To Do - Open up -->
                 <!-- <div>
                   <ion-item>
@@ -27,7 +42,7 @@
                   </ion-item>
                   <p class="formInfo"> Please enter a valid mobile number</p>
                 </div> -->
-                <h4 class="success">Get notified of vaccine slots near you in 3 simple steps:</h4>
+                <!-- <h4 class="success">Get notified of vaccine slots near you in 3 simple steps:</h4>
                 <ol>
                 <li>Enter your pincode and preferences</li>
                 <li>Enter email address where you wish to be notified</li>
@@ -35,7 +50,7 @@
                 </ol>
                 <h4 class="success">When suitable slots are identified, you will get an email from us.</h4>
                 <h4 class="success"><font color="red">Use CoWIN app to book your slot with this information.</font></h4>
-              </ion-card-content>
+              </ion-card-content> -->
             </ion-card>
 
             <!-- Pincode entering area -->
