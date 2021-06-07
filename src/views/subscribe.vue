@@ -22,15 +22,16 @@
                 <ion-card-title> What is BookMyVaccine? </ion-card-title>
               </ion-card-header>
               <ion-card-content>
-                BookMyVaccine sends you an email whenever a vaccine appointment is available near you.
-                Subscribe today to get notified as soon as new slots are available.
+                Book my vaccine is an app designed to assist you with finding vaccine slots near you.
               </ion-card-content>
               <ion-card-header>
                 <ion-card-title> Why BookMyVaccine? </ion-card-title>
               </ion-card-header>
               <ion-card-content>
-                Unlike other tools, BookMyVaccine searches for available slots in <i><b>all</b></i> pincodes <i><b>around</b></i> you, <i><b>periodically</b></i>.
-                Whenever a slot matching your preferences is found, you will receive an email with the details.<br>
+                <ul>
+                  <li>Automate your search for vaccine slots. BookMyVaccine checks for available slots <i><b>every 30 minutes</b></i>, and immediately emails you.</li>
+                  <li>Expand you search to <i><b>multiple pincodes</b></i> near you, customize your preferences and get <i><b>tailored results</b></i>.</li>
+              </ul>
                 <p class="formInfo"><font color="red">Please use CoWIN app to book your slot with this information.</font></p>
               </ion-card-content>
               <!-- <ion-card-content> -->
