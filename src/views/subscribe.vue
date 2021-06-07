@@ -23,11 +23,6 @@
               </ion-card-header>
               <ion-card-content>
                 Book my vaccine is an app designed to assist with finding vaccine slots near you.
-              </ion-card-content>
-              <ion-card-header>
-                <ion-card-title> Why BookMyVaccine? </ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
                 <ul>
                   <li>Automate your search for vaccine slots. BookMyVaccine checks for available slots <i><b>every 30 minutes</b></i>, and immediately emails you.</li>
                   <li>Expand you search to <i><b>multiple pincodes</b></i> near you, customize your preferences and get <i><b>tailored results</b></i>.</li>
@@ -692,7 +687,7 @@ export default  {
 .map {
   width: 100%;
   /* height: 90%; */
-  height: 25rem;
+  height: 15rem;
   /* height: 300px; */
 }
 </style>
