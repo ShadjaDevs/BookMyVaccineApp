@@ -22,7 +22,7 @@
                 <ion-card-title> What is BookMyVaccine? </ion-card-title>
               </ion-card-header>
               <ion-card-content>
-                Book my vaccine is an app designed to assist you with finding vaccine slots near you.
+                Book my vaccine is an app designed to assist with finding vaccine slots near you.
               </ion-card-content>
               <ion-card-header>
                 <ion-card-title> Why BookMyVaccine? </ion-card-title>
